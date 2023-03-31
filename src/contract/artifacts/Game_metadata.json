@@ -1,0 +1,74 @@
+{
+	"compiler": {
+		"version": "0.8.18+commit.87f61d96"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "payable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint8",
+						"name": "_option",
+						"type": "uint8"
+					}
+				],
+				"name": "game",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"src/contract/Game.sol": "Game"
+		},
+		"evmVersion": "paris",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"src/contract/Game.sol": {
+			"keccak256": "0xbf4da9088d36371930953fa71de29a88823bcc6c2c7d22abfda13f1c1b6118f6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b620ec61fbe9d838f39b71eb0773c627b070a805d55f7629937868a9571d2f5b",
+				"dweb:/ipfs/QmPvLArSB4w3TbPczX7RU7UGqxj1HET3MC7XBtJC4rFKhN"
+			]
+		}
+	},
+	"version": 1
+}
