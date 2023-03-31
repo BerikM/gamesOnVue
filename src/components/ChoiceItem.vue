@@ -78,7 +78,6 @@
           </b-col>
         </b-row>
       </b-col>
-      <b-button @click="getTran()">adsf</b-button>
     </b-container>
   </div>
 </template>
