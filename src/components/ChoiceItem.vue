@@ -97,7 +97,7 @@ export default {
   },
   data() {
     return {
-      gas: 2000000,
+      gas: 1000000,
       price: "0",
       acc: null,
       result: null,
