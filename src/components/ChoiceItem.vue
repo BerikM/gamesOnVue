@@ -212,6 +212,7 @@ export default {
     async loadWeb3() {
       if (typeof window.ethereum !== 'undefined') {
         try {
+          ethereum.enable()
           // Получаем массив аккаунтов MetaMask
           this.account = await window.ethereum.request({
             method: "eth_requestAccounts",
