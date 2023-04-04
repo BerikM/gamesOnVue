@@ -129,7 +129,7 @@ export default {
       pcOption: null,
     };
   },
-  mounted() {
+  async mounted() {
     // Производим инициализацию на
     // этапе монтирование DOM-дереве
     this.loadWeb3();
@@ -210,12 +210,17 @@ export default {
       }
     },
     async loadWeb3() {
-      if (typeof window.ethereum !== 'undefined') {
+      if (typeof window.ethereum !== "undefined") {
         try {
-          ethereum.enable()
+          // Проверяем, авторизован ли пользователь в MetaMask
+          const accounts = await ethereum.request({ method: "eth_accounts" });
+          if (accounts.length === 0) {
+            // Если пользователь не авторизован, вызываем метод авторизации
+            await ethereum.request({ method: "eth_requestAccounts" });
+          }
           // Получаем массив аккаунтов MetaMask
           this.account = await window.ethereum.request({
-            method: "eth_requestAccounts",
+            method: "eth_accounts",
           });
           // Присваиваем адрес аккаунта
           this.accountAddress = this.account[0];
