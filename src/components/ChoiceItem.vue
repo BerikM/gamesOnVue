@@ -210,7 +210,7 @@ export default {
       }
     },
     async loadWeb3() {
-      if (window.ethereum) {
+      if (typeof window.ethereum !== 'undefined') {
         try {
           // Получаем массив аккаунтов MetaMask
           this.account = await window.ethereum.request({
