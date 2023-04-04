@@ -1,7 +1,7 @@
 <template>
   <div class="item">
     <b-alert
-      :show="dismissCountDown"
+      :show="!countDown"
       fade
       :variant="type"
       @dismiss-count-down="countDownChanged"
@@ -15,18 +15,27 @@
 export default {
   name: "Alert",
   props: {
-    message: String,
-    type: String,
-    dismissCountDown: Number
+    dismissCountDown: {
+      type: Number,
+      required: true,
+    },
+    message: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
-      dismissSecs: 10,
+      countDown: this.dismissCountDown,
     };
   },
   methods: {
     countDownChanged(dismissCountDown) {
-      this.dismissCountDown = dismissCountDown;
+      this.countDown = dismissCountDown;
     },
     showAlert() {
       this.dismissCountDown = this.dismissSecs;

@@ -24,7 +24,7 @@
               </b-input-group>
             </b-col>
             <b-col cols="6">
-              <b-input-group prepend="gas" class="mt-3">
+              <b-input-group prepend="limit gas" class="mt-3">
                 <b-form-input v-model="gas"></b-form-input>
               </b-input-group>
             </b-col>
@@ -97,7 +97,7 @@ export default {
   },
   data() {
     return {
-      gas: 1000000,
+      gas: 50000,
       price: "0",
       acc: null,
       result: null,
@@ -114,9 +114,7 @@ export default {
         { type: "paper", symbol: "1" },
         { type: "scissors", symbol: "2" },
       ],
-      contractAddress: "0x1d2923ac2b280744544D02FAC41Ff811215c8639",
-      // contractAddress: "0xdb71Fa6a325dA8d0f64cF787368d76dea09D0F0F",
-      // contractAddress: "0x7EC0AaeC4FCf4A7F72ebFf0328555E545bABd51a",
+      contractAddress: "0xa2b69fd6b4f32970c05555b6c83ca564a46cab0c",
       contractABI: KNBGame.abi,
       contractInstance: null,
       accountAddress: "",
@@ -126,6 +124,9 @@ export default {
       alertType: "",
       alertMessage: "",
       alertDismissCountDown: 0,
+      currentHash: "",
+      pcWin: null,
+      pcOption: null,
     };
   },
   mounted() {
@@ -136,33 +137,34 @@ export default {
   },
   methods: {
     handleMetaMaskMove(step) {
-      let contract = new web3.eth.Contract(this.contractABI, this.contractAddress);
-      contract.methods.game(step).send({from: this.accountAddress, gas: this.gas})
-    .on('transactionHash', function(hash){
-      console.log(hash);
-        // транзакция отправлена, получен хеш транзакции
-    })
-    .on('receipt', function(receipt) {
-      console.log(receipt);
-        // транзакция была успешно выполнена, получен receipt
-    })
-    .on('error', function(error) {
-      console.log(error)
-        // ошибка выполнения транзакции
-    });
-
-      // Получаем и подставляем цену за ход
-      // this.contractInstance.methods
-      //   .game(step)
-      //     // from - Указываем адрес аккаунта с которого производим действие
-      //     // gas - Выставление цены gas за операцию (используется двустороннее связывание)
-      //   .send({ from: this.accountAddress, value: web3.utils.toWei(this.price, "ether"), gas: this.gas })
-      //   .on("receipt", (receipt) => {
-      //     console.log(receipt);
-      //   })
-      //   .on("error", (error) => {
-      //     console.log(error);
-      //   });
+      let contract = new web3.eth.Contract(
+        this.contractABI,
+        this.contractAddress
+      );
+      const self = this;
+      contract.methods
+        .game(step)
+        .send({
+          from: this.accountAddress,
+          value: web3.utils.toWei(this.price, "ether"),
+          gas: this.gas,
+        })
+        .on("transactionHash", function (hash) {
+          console.log(hash);
+          self.currentHash = hash;
+          // транзакция отправлена, получен хеш транзакции
+        })
+        .on("receipt", function (receipt) {
+          let returnValues = receipt.events["GameResult"].returnValues;
+          self.pcOption = returnValues.computerOption; // Выбор компьютера
+          self.getGameResult(returnValues.result);
+          self.updateBalance();
+          // транзакция была успешно выполнена, получен receipt
+        })
+        .on("error", function (error) {
+          console.log(error);
+          // ошибка выполнения транзакции
+        });
     },
     updateBalance() {
       web3.eth.getBalance(this.accountAddress, (error, balance) => {
@@ -172,6 +174,22 @@ export default {
           this.balance = web3.utils.fromWei(balance, "ether");
         }
       });
+    },
+    getGameResult(result) {
+      if (result == "0") {
+        this.alertType = "primary";
+        this.alertMessage = "Ничья!";
+        console.log("result = " + result + "; Ничья!");
+      } else if (result == "1") {
+        this.alertType = "success";
+        this.alertMessage = "Ваша Победа!";
+        console.log("result = " + result + "; Вы победили!");
+      } else {
+        this.alertType = "danger";
+        this.alertMessage = "Вы проиграли! Беда!";
+        console.log("result = " + result + "; Вы проиграли!");
+      }
+      this.alertDismissCountDown = 10;
     },
     handleItemSelect(playerChoice) {
       const choices = ["r", "s", "p"];
