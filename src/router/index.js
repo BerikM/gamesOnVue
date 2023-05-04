@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import CrossZero from "../views/CrossZero.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -8,6 +9,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/x",
+    name: "CrossZero",
+    component: CrossZero,
   },
 ];
 

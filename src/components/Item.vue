@@ -12,6 +12,8 @@
 
 <script>
 export default {
+  watch: {
+  },
   name: "Item",
   props: {
     title: String,

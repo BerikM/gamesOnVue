@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    <Navbar />
+    <Header></Header>
     <b-container>
       <router-view />
     </b-container>
-    <Footer />
+    <Footer class="footer"></Footer>
   </div>
 </template>
 
-<style>
+<style scoped>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -25,23 +25,21 @@
   font-weight: bold;
   color: #2c3e50;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-.bg-color-grey {
-  background-color: rgb(10, 62, 101, 0.6) !important;
+.footer{
+  position: absolute;
+  width: 100vw;
+  bottom: 0;
+  left: 0;
 }
 </style>
 
 <script>
-import Navbar from "@/components/Navbar.vue";
-import Footer from "@/components/Footer.vue";
-
+import Header from "./components/Header.vue"
+import Footer from "./components/Footer.vue"
 export default {
   name: "Home",
   components: {
-    Navbar,
+    Header,
     Footer,
   },
 };

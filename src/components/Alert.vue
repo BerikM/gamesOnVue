@@ -4,7 +4,6 @@
       :show="!countDown"
       fade
       :variant="type"
-      @dismiss-count-down="countDownChanged"
     >
       {{ message }}
     </b-alert>
@@ -15,10 +14,6 @@
 export default {
   name: "Alert",
   props: {
-    dismissCountDown: {
-      type: Number,
-      required: true,
-    },
     message: {
       type: String,
       required: true,
@@ -30,16 +25,9 @@ export default {
   },
   data() {
     return {
-      countDown: this.dismissCountDown,
     };
   },
   methods: {
-    countDownChanged(dismissCountDown) {
-      this.countDown = dismissCountDown;
-    },
-    showAlert() {
-      this.dismissCountDown = this.dismissSecs;
-    },
   },
 };
 </script>
